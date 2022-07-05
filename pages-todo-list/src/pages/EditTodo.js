@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 
 var key = "todos";
-var addOrEdit = true;
 
 function EditTodo() {
   const navigate = useNavigate();
@@ -43,10 +42,7 @@ function EditTodo() {
   return (
     <div>
       <button
-        onClick={() => {
-          navigate("/");
-          addOrEdit = true;
-        }}
+        onClick={() => navigate("/")}
         className="btn btn-secondary floatLeft"
       >
         Back
@@ -88,7 +84,7 @@ function EditTodo() {
       </div>
       <div>
         <button onClick={submitInput} className="btn btn-outline-primary">
-          {addOrEdit ? "Add" : "Edit"}
+          {params.id !== undefined ? "Edit" : "Add"}
         </button>
       </div>
     </div>
