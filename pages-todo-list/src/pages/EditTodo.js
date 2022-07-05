@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 
@@ -11,6 +11,10 @@ function EditTodo() {
   const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(key)));
   const [input, setInput] = useState("");
   const [selected, setSelected] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(todos));
+  }, [todos]);
 
   const handleChange = (e) => {
     setSelected(e.target.value);
