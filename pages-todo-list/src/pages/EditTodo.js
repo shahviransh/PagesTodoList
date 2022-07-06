@@ -9,14 +9,14 @@ function EditTodo() {
   const params = useParams();
   const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(key)));
   const [input, setInput] = useState("");
-  const [selected, setSelected] = useState("");
+  var selected = false;
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(todos));
   }, [todos]);
 
   const handleChange = (e) => {
-    setSelected(e.target.value);
+    selected = e.target.value === "yes" ? true : false;
   };
 
   const submitInput = () => {
@@ -25,14 +25,14 @@ function EditTodo() {
       for (var i = 0; i < todos.length; i++) {
         if (todos[i].id === id) {
           todos[i].name = input;
-          todos[i].finished = selected === "yes";
+          todos[i].finished = selected;
         }
       }
     } else if (input !== "") {
       const todo = {
         id: Date.now().toString(),
         name: input,
-        finished: selected === "yes",
+        finished: selected,
       };
       setTodos((todos) => [...todos, todo]);
     }
