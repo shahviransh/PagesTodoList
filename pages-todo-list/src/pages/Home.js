@@ -1,26 +1,23 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../App.css";
 
-var key = "todos";
-
 function Home() {
+  const key = "todos";
   const navigate = useNavigate();
   const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(key)));
   const location = useLocation();
 
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(todos));
-  }, [todos]);
-
-  const filterList = (id) => {
-    setTodos(todos.filter((item) => item.id !== id));
+  const deleteItem = (id) => {
+    const items = todos.filter((item) => item.id !== id);
+    setTodos(items);
+    localStorage.setItem(key, JSON.stringify(items));
   };
 
-  const listTodos = () => {
+  const renderTodos = () => {
     if (location.search === "?finished=1") {
       return printTodos(todos.filter((item) => item.finished));
-    } else if (location.search === "?finished=0") {
+    } else if (location.search.finished === "?finished=0") {
       return printTodos(todos.filter((item) => !item.finished));
     }
     return printTodos(todos);
@@ -35,14 +32,14 @@ function Home() {
           <div className="column">
             <button
               onClick={() => {
-                filterList(item.id);
+                deleteItem(item.id);
               }}
               className="btn btn-danger"
             >
               D
             </button>
             <button
-              onClick={() => navigate("/todo/" + item.id)}
+              onClick={() => navigate(`/todo/${item.id}`)}
               className="btn btn-primary"
             >
               E
@@ -67,7 +64,7 @@ function Home() {
           <div className="column">Finished</div>
           <div className="column">Actions</div>
         </div>
-        {listTodos()}
+        {renderTodos()}
       </dl>
     </div>
   );
