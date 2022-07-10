@@ -2,41 +2,43 @@ import { React, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 
-var key = "todos";
-
 function EditTodo() {
+  const key = "todos";
   const navigate = useNavigate();
   const params = useParams();
   const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(key)));
-  const [input, setInput] = useState("");
-  var selected = false;
+  const [name, setName] = useState("");
+  const [selected, setSelected] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(todos));
   }, [todos]);
 
-  const handleChange = (e) => {
-    selected = e.target.value === "yes" ? true : false;
-  };
-
   const submitInput = () => {
     let id = params.id;
-    if (id !== undefined) {
-      for (var i = 0; i < todos.length; i++) {
-        if (todos[i].id === id) {
-          todos[i].name = input;
-          todos[i].finished = selected;
-        }
+    let items = [...todos];
+    if (name === "") {
+      alert("Please enter a name");
+    } else {
+      if (id) {
+        items.map((item) => {
+          if (item.id === id) {
+            item.name = name;
+            item.finished = selected;
+          }
+        });
+      } else {
+        const todo = {
+          id: Date.now().toString(),
+          name: name,
+          finished: selected,
+        };
+        items = [...items, todo];
       }
-    } else if (input !== "") {
-      const todo = {
-        id: Date.now().toString(),
-        name: input,
-        finished: selected,
-      };
-      setTodos((todos) => [...todos, todo]);
+      setTodos(items);
+      localStorage.setItem(key, JSON.stringify(items));
+      navigate("/");
     }
-    localStorage.setItem(key, JSON.stringify(todos));
   };
 
   return (
@@ -52,39 +54,34 @@ function EditTodo() {
         <input
           type="text"
           placeholder="Name Here"
-          value={input}
-          onInput={(e) => setInput(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
       <div>
         <h6 className="finLeft">Finished</h6>
-        <input
-          type="radio"
-          id="yes"
-          name="choose"
-          value="yes"
-          onChange={handleChange}
-          className="form-check-input"
-        />
-        <label for="yes" className="label">
-          Yes
-        </label>
-
-        <input
-          type="radio"
-          id="no"
-          name="choose"
-          value="no"
-          onChange={handleChange}
-          className="form-check-input"
-        />
-        <label for="no" className="label">
-          No
-        </label>
+        {[
+          { id: "1", value: "yes" },
+          { id: "2", value: "no" },
+        ].map((item) => (
+          <span key={item.id}>
+            <input
+              type="radio"
+              id={item.id}
+              name="choose"
+              value={item.value}
+              onChange={(e) => setSelected(e.target.value === "yes")}
+              className="form-check-name"
+            />
+            <label htmlFor={item.id} className="label">
+              {item.value === "yes" ? "Yes" : "No"}
+            </label>
+          </span>
+        ))}
       </div>
       <div>
         <button onClick={submitInput} className="btn btn-outline-primary">
-          {params.id !== undefined ? "Edit" : "Add"}
+          {params.id ? "Edit" : "Add"}
         </button>
       </div>
     </div>
