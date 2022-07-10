@@ -21,7 +21,7 @@ function EditTodo() {
       alert("Please enter a name");
     } else {
       if (id) {
-        items.map((item) => {
+        items.forEach((item) => {
           if (item.id === id) {
             item.name = name;
             item.finished = selected;
