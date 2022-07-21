@@ -15,9 +15,11 @@ function Home() {
   };
 
   const renderTodos = () => {
-    if (location.search === "?finished=1") {
+    const queryParams = new URLSearchParams(location.search);
+    const finished = queryParams.get("finished");
+    if (finished === "1") {
       return printTodos(todos.filter((item) => item.finished));
-    } else if (location.search.finished === "?finished=0") {
+    } else if (finished === "0") {
       return printTodos(todos.filter((item) => !item.finished));
     }
     return printTodos(todos);
