@@ -11,8 +11,15 @@ function EditTodo() {
   const [selected, setSelected] = useState(false);
 
   useEffect(() => {
+    if (params?.id) {
+      const todo = todos.find((item) => item.id === params.id);
+      if (todo) {
+        setName(todo.name);
+        setSelected(todo.finished);
+      }
+    }
     localStorage.setItem(key, JSON.stringify(todos));
-  }, [todos]);
+  }, [todos, params?.id]);
 
   const submitInput = () => {
     let id = params.id;
@@ -72,6 +79,7 @@ function EditTodo() {
               value={item.value}
               onChange={(e) => setSelected(e.target.value === "yes")}
               className="form-check-name"
+              checked={(selected ? "yes" : "no") === item.value}
             />
             <label htmlFor={item.id} className="label">
               {item.value === "yes" ? "Yes" : "No"}
