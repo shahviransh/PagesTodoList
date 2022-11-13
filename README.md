@@ -1,5 +1,6 @@
 # Todo-List Search Query
 **PagesTodoList/?finished=1** for finished todos
+
 **PagesTodoList/?finished=0** for unfinished todos
 
 # Getting Started with Create React App
