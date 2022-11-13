@@ -1,16 +1,13 @@
 import "./logo.svg";
-import { React, useEffect } from "react";
+import { React } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EditTodo from "./pages/EditTodo";
 import Home from "./pages/Home";
 
 function App() {
-  useEffect(() => {
-    if (!localStorage.getItem("todos")) {
-      localStorage.setItem("todos", JSON.stringify([]));
-    }
-  }, []);
-
+  if (!localStorage.getItem("todos")) {
+    localStorage.setItem("todos", JSON.stringify([]));
+  }
   return (
     <Router>
       <Routes>
