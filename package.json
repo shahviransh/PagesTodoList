@@ -2,7 +2,7 @@
   "name": "pages-todo-list",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://shahviransh.github.io/PagesTodoList"
+  "homepage": "https://shahviransh.github.io/PagesTodoList",
   "dependencies": {
     "@babel/core": "^7.18.5",
     "@babel/plugin-syntax-flow": "^7.17.12",
